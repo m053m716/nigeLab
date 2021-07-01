@@ -95,6 +95,17 @@ else % Otherwise use user-provided map
 end
 if ~isempty(map)
    icon = ind2rgb(img,map);
+else
+    alpha = ones(size(img));
+    col = nigeLab.defaults.nigelColors(pars.Background)*255;
+    idx = all(~img,3);
+    for ii =1:3
+        thisCol = img(:,:,ii);
+        thisCol(idx) = col(ii);
+        alpha(idx,ii) = 0;
+        img(:,:,ii) = thisCol;
+    end
+   icon = img; 
 end
 
 if ~strcmpi(pars.Type,'double')
